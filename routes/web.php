@@ -39,4 +39,4 @@ Route::get('/', [UserController::class, 'user']);
 Route::get('/shop', [ShopController::class, 'shop']);
 
 Route::get('/toko', [StoreController::class, 'toko']);
-Route::get('/product-add', [StoreController::class, 'product-add']);
+Route::get('/product-add', [StoreController::class, 'product_add']);

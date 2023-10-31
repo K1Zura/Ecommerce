@@ -719,7 +719,7 @@
 					</div>
 					<a href="" class="primary-btn">Shop Now</a>
 				</div>
-				<div class="col-lg-6 no-padding exclusive-right">
+				<div class="col-lg-10 no-padding exclusive-right">
 					<div class="active-exclusive-product-slider">
 						<!-- single exclusive carousel -->
 						<div class="single-exclusive-slider">
