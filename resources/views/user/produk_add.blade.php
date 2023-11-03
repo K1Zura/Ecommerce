@@ -8,7 +8,8 @@
     <div class="row">
         <div class="col-lg-8">
             <h3>Tambah Produk</h3>
-            <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+            <form class="row contact_form" action="/product-add" method="post" novalidate="novalidate">
+                @csrf
                 <div class="col-md-12 form-group p_star">
                     <input type="text" class="form-control" id="first" name="name" placeholder="Product Name">
                 </div>
@@ -17,9 +18,6 @@
                 </div>
                 <div class="col-md-6 form-group p_star">
                     <input type="text" class="form-control" id="number" name="nomor" placeholder="Number Phone">
-                </div>
-                <div class="col-md-6 form-group p_star">
-                    <input type="text" class="form-control" id="email" name="email" placeholder="Email">
                 </div>
                 <div class="col-md-12 form-group p_star">
                     <select class="country_select" name="kategori">
@@ -58,7 +56,10 @@
                         <input type="number" class="form-control" id="zip" name="jumlah" placeholder="Amount">
                     </div>
                     <div class="col-md-12 form-group">
-                        <textarea class="form-control" name="message" id="message" rows="1" placeholder="Description"></textarea>
+                        <textarea class="form-control" name="deskripsi" id="deskripsi" rows="1" placeholder="Description"></textarea>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <button class="primary-btn" type="submit">Add</button>
                     </div>
                 </div>
             </form>
