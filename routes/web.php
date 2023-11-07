@@ -33,6 +33,8 @@ Route::middleware(['middleware'=>'auth'])->group(function () {
     Route::get('/membership', [UserController::class, 'membership']);
     Route::get('/data-membership', [UserController::class, 'data_membership']);
     Route::get('/produk-membership', [UserController::class, 'produk_membership']);
+
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
 Route::get('/', [UserController::class, 'user']);
 
@@ -41,3 +43,14 @@ Route::get('/shop', [ShopController::class, 'shop']);
 Route::get('/toko', [StoreController::class, 'toko']);
 Route::get('/product-add', [StoreController::class, 'product_add']);
 Route::post('/product-add', [StoreController::class, 'create']);
+Route::get('/toko-add', [StoreController::class, 'toko_add']);
+Route::post('/toko-add', [StoreController::class, 'create_company']);
+Route::get('product-list', [StoreController::class, 'daftar_produk']);
+
+// Route::middleware(['middleware'=>'guest'])->group(function () {
+    Route::get('/login-user', [UserController::class, 'login'])->name('login');
+    Route::post('/auth', [UserController::class, 'authenticate'])->name('login');
+    Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+    Route::get('/register', [UserController::class, 'register']);
+    Route::post('/register', [UserController::class, 'create']);
+// });

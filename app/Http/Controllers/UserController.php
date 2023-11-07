@@ -2,12 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function user(){
         return view('user/home');
+    }
+    public function login(){
+        return view('user/login-user');
+    }
+    public function authenticate(request $request){
+        $request->validate([
+            'name'=>['required'],
+            'password'=>['required'],
+        ]);
+        $infoLogin=[
+            'name'=>$request->name,
+            'password'=>$request->password,
+        ];
+        if (Auth::attempt($infoLogin)) {
+            return redirect('/');
+        }else {
+            return redirect('/login-user');
+        }
+    }
+    public function register(){
+        return view('user/register');
+    }
+    public function create(request $request){
+        $user = User::create($request->all());
+        return redirect('/login-user');
+    }
+    public function logout(){
+        Auth::logout();
+        return redirect('/');
     }
     public function data_user(request $request){
         

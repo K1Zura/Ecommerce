@@ -11,13 +11,7 @@
             <form class="row contact_form" action="/product-add" method="post" novalidate="novalidate">
                 @csrf
                 <div class="col-md-12 form-group p_star">
-                    <input type="text" class="form-control" id="first" name="name" placeholder="Product Name">
-                </div>
-                <div class="col-md-12 form-group">
-                    <input type="text" class="form-control" id="company" name="company" placeholder="Company Name">
-                </div>
-                <div class="col-md-6 form-group p_star">
-                    <input type="text" class="form-control" id="number" name="nomor" placeholder="Number Phone">
+                    <input type="text" class="form-control" id="first" name="name" placeholder="Product Name" required>
                 </div>
                 <div class="col-md-12 form-group p_star">
                     <select class="country_select" name="kategori">
@@ -26,12 +20,6 @@
                         <option value="celana">Celana</option>
                         <option value="aksesoris">Aksesoris</option>
                     </select>
-                </div>
-                <div class="col-md-12 form-group p_star">
-                    <input type="text" class="form-control" id="add1" name="alamat" placeholder="Address">
-                </div>
-                <div class="col-md-12 form-group">
-                    <input type="text" class="form-control" id="zip" name="kode_post" placeholder="Postcode">
                 </div>
                 <div class="col-md-12 form-group">
                     <div class="creat_account">

@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class product extends Model
+class akun extends Model
 {
     use HasFactory;
     protected $fillable=[
         'name',
-        'deskripsi',
-        'kategori',
-        'image',
+        'email',
+        'telpon',
+        'password',
+        'role_id',
     ];
 }

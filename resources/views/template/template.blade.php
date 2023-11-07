@@ -103,7 +103,7 @@
               <a class="dropdown-item preview-item">               
                   <i class="icon-head"></i> Profile
               </a>
-              <a class="dropdown-item preview-item">
+              <a class="dropdown-item preview-item" href="/logout">
                   <i class="icon-inbox"></i> Logout
               </a>
             </div>

@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('companies', function (Blueprint $table) {
-            $table->id();
-            $table->string('company',50);
-            $table->string('telepon',14);
-            $table->string('address', 50);
-            $table->string('postcode',5);
-            $table->timestamps();
+        Schema::table('akuns', function (Blueprint $table) {
+            $table->unsignedBigInteger('role_id')->after('email')->nullable();
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('restrict');
         });
     }
 
@@ -26,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('companies');
+        Schema::table('akuns', function (Blueprint $table) {
+            //
+        });
     }
 };
