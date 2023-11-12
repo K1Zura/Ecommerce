@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('image',255)->after('kategori');
+            $table->unsignedBigInteger('user_id')->after('image')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+
         });
     }
 

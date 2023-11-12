@@ -54,6 +54,11 @@
 				<div class="col-lg-12">
 					<div class="login_form_inner">
 						<h3>Register</h3>
+						@if(session('error'))
+							<div class="alert alert-danger">
+								{{ session('error') }}
+							</div>
+						@endif
 						<form class="row login_form" action="/register" method="post" id="contactForm" novalidate="novalidate">
                             @csrf
                             <div class="col-md-12 form-group">
@@ -64,6 +69,11 @@
 							</div>
 							<div class="col-md-12 form-group">
 								<input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+							</div>
+							<div class="col-md-12 form-group">
+								<select name="role_id" id="">
+									<option value="2">User</option>
+								</select>
 							</div>
 							<div class="col-md-12 form-group">
 								<button type="submit" value="submit" class="primary-btn">Log In</button>

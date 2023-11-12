@@ -23,9 +23,9 @@ class UserController extends Controller
             'name'=>$request->name,
             'password'=>$request->password,
         ];
-        if (Auth::attempt($infoLogin)) {
+        if (Auth::guard('user')->attempt($infoLogin)) {
             return redirect('/');
-        }else {
+        } else {
             return redirect('/login-user');
         }
     }
@@ -34,14 +34,22 @@ class UserController extends Controller
     }
     public function create(request $request){
         $user = User::create($request->all());
+        $existingUser = User::where('email', $request->email)->first();
+    if ($existingUser) {
         return redirect('/login-user');
     }
-    public function logout(){
-        Auth::logout();
-        return redirect('/');
     }
+
+    public function logout()
+{
+    if (Auth::guard('user')->check()) {
+        Auth::guard('user')->logout();
+    }
+    return redirect('/');
+}
+
     public function data_user(request $request){
-        
+
         return view('admin/user/data-user');
     }
     public function data_produk(){

@@ -26,7 +26,7 @@ class AuthController extends Controller
             'email'=>$request->email,
             'password'=>$request->password,
         ];
-        if (Auth::attempt($infoLogin)) {
+        if (Auth::guard('web')->attempt($infoLogin)) {
             return redirect('/home');
         }else {
             return redirect('/login');

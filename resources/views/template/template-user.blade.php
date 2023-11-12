@@ -77,7 +77,7 @@ margin: 0;">
 									<i class="fa fa-user"></i>
 								</a>
 								<ul class="dropdown-menu" aria-labelledby="accountDropdown">
-									@if (auth()->check())
+									@if (auth('user')->check())
 									<li><a class="dropdown-item" href="/logout">Logout</a></li>
 									@else
 									<li><a class="dropdown-item" href="/login-user">Login</a></li>
@@ -85,7 +85,7 @@ margin: 0;">
 									<li><a class="dropdown-item" href="#">My Profile</a></li>
 								</ul>
 
-								
+
 							</li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
@@ -131,7 +131,7 @@ margin: 0;">
 	margin-bottom: 320px;">
 		@yield('content')
 	</div>
-	
+
 
 	<!-- start footer Area -->
 	<footer class="footer-area section_gap" style="background-color: #333;
@@ -215,9 +215,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</footer>
 	<!-- End footer Area -->
 
-	<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-		@csrf
-	</form>
 	<script src="asset/js/vendor/jquery-2.2.4.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 	 crossorigin="anonymous"></script>

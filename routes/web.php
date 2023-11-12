@@ -36,20 +36,54 @@ Route::middleware(['middleware'=>'auth'])->group(function () {
 
     Route::get('/logout', [AuthController::class, 'logout']);
 });
-Route::get('/', [UserController::class, 'user']);
 
-Route::get('/shop', [ShopController::class, 'shop']);
 
-Route::get('/toko', [StoreController::class, 'toko']);
-Route::get('/product-add', [StoreController::class, 'product_add']);
-Route::post('/product-add', [StoreController::class, 'create']);
-Route::get('/toko-add', [StoreController::class, 'toko_add']);
-Route::post('/toko-add', [StoreController::class, 'create_company']);
-Route::get('product-list', [StoreController::class, 'daftar_produk']);
+Route::middleware(['guest'])->group(function () {
+    Route::get('/', [UserController::class, 'user']);
+
+    Route::get('/shop', [ShopController::class, 'shop']);
+
+    Route::get('/toko', [StoreController::class, 'toko']);
+    Route::get('/product-add', [StoreController::class, 'product_add']);
+    Route::post('/product-add', [StoreController::class, 'create']);
+    Route::get('/product-add', [StoreController::class, 'store']);
+    Route::get('/toko-add', [StoreController::class, 'toko_add']);
+    Route::post('/toko-add', [StoreController::class, 'create_company']);
+    Route::get('product-list', [StoreController::class, 'daftar_produk']);
+    Route::get('product-detail', [StoreController::class, 'detail']);
+});
+
+Route::middleware(['checkRole:1'])->group(function () {
+    Route::get('/home', [AuthController::class, 'index']);
+
+    Route::get('/user', [AuthController::class, 'user']);
+    Route::get('/data-user', [UserController::class, 'data_user']);
+    Route::get('/data-produk', [UserController::class, 'data_produk']);
+
+    Route::get('/membership', [UserController::class, 'membership']);
+    Route::get('/data-membership', [UserController::class, 'data_membership']);
+    Route::get('/produk-membership', [UserController::class, 'produk_membership']);
+
+    Route::get('/logout', [AuthController::class, 'logout']);
+});
+// Route::middleware(['checkRole:2'])->group(function () {
+//     Route::get('/', [UserController::class, 'user']);
+
+//     Route::get('/shop', [ShopController::class, 'shop']);
+
+//     Route::get('/toko', [StoreController::class, 'toko']);
+//     Route::get('/product-add', [StoreController::class, 'product_add']);
+//     Route::post('/product-add', [StoreController::class, 'create']);
+//     Route::get('/product-add', [StoreController::class, 'store']);
+//     Route::get('/toko-add', [StoreController::class, 'toko_add']);
+//     Route::post('/toko-add', [StoreController::class, 'create_company']);
+//     Route::get('product-list', [StoreController::class, 'daftar_produk']);
+//     Route::get('product-detail', [StoreController::class, 'detail']);
+// });
 
 // Route::middleware(['middleware'=>'guest'])->group(function () {
-    Route::get('/login-user', [UserController::class, 'login'])->name('login');
-    Route::post('/auth', [UserController::class, 'authenticate'])->name('login');
+    Route::get('/login-user', [UserController::class, 'login'])->name('login-user');
+    Route::post('/auth-user', [UserController::class, 'authenticate'])->name('auth.user');
     Route::get('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/register', [UserController::class, 'register']);
     Route::post('/register', [UserController::class, 'create']);
