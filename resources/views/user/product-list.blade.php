@@ -2,7 +2,7 @@
 @section('content')
 @section('title', 'Detail Produk')
 @section('akhir', 'Detail Produk')
-
+@section('judul', 'List Product')
 <style>
     .gallery-item {
         position: relative;
@@ -44,19 +44,26 @@
 </style>
 
 <br>
-
+<style>
+    .single-deal img {
+        width: 100%; /* Ensures the image takes the full width of its container */
+        height: 300px; /* Set a fixed height for all images */
+        object-fit: cover; /* Ensures the image covers the container without stretching */
+    }
+</style>
 <div class="section-top-border">
     <form action="" method="GET">
         <div class="row gallery-item">
             @if (Auth::guard('user')->check() && Auth::guard('user')->user()->products->count() > 0)
                 @foreach (Auth::guard('user')->user()->products as $product)
                     <div class="col-md-4 mb-3">
-                        <div class="image-card">
-                            <a href="/product-detail">
-                                <div class="image-overlay">
-                                    <p class="image-name">{{ $product->name }}</p>
+                        <div class="single-deal">
+                            <div class="overlay"></div>
+                            <img class="img-fluid w-100" src="{{ asset('storage/photo/'.$product->image) }}" alt="">
+                            <a href="/product-detail/{{$product->id}}">
+                                <div class="deal-details">
+                                    <h6 class="deal-title">{{$product->name}}</h6>
                                 </div>
-                                <img src="{{ asset('storage/photo/'.$product->image) }}" alt="" class="img-fluid">
                             </a>
                         </div>
                     </div>

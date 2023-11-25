@@ -5,7 +5,7 @@
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon-->
-	<link rel="shortcut icon" href="asset/img/logo.png" />
+	<link rel="shortcut icon" href="{{ asset('asset/img/logo.png')}}" />
 	<!-- Author Meta -->
 	<meta name="author" content="CodePixar">
 	<!-- Meta Description -->
@@ -30,6 +30,11 @@
 	<link rel="stylesheet" href="{{ asset('asset/css/ion.rangeSlider.skinFlat.css')}}" />
 	<link rel="stylesheet" href="{{ asset('asset/css/magnific-popup.css')}}">
 	<link rel="stylesheet" href="{{ asset('asset/css/main.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
 </head>
 
 <body style="display: flex;
@@ -62,17 +67,8 @@ margin: 0;">
 									<li class="nav-item {{ Request::is('toko') ? 'active' : '' }}"><a class="nav-link" href="/toko">Stores</a></li>
 								</ul>
 							</li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Blog</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-								</ul>
-							</li>
-							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+							<li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
 							<li class="nav-item dropdown">
-
 									<a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<i class="fa fa-user"></i>
 								</a>
@@ -82,33 +78,24 @@ margin: 0;">
 									@else
 									<li><a class="dropdown-item" href="/login-user">Login</a></li>
 									@endif
-									<li><a class="dropdown-item" href="#">My Profile</a></li>
+									<li><a class="dropdown-item" href="/profil">My Profile</a></li>
 								</ul>
-
-
 							</li>
 						</ul>
-						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
-							<li class="nav-item">
-								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-							</li>
-						</ul>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item"><a href="/bag" class="cart"><span class="ti-bag"></span></a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item"><a href="/wishlist" class="wishlist"><span class="fa fa-heart"></span></a></li>
+                        </ul>
 					</div>
 				</div>
 			</nav>
 		</div>
-		<div class="search_input" id="search_input_box">
-			<div class="container">
-				<form class="d-flex justify-content-between">
-					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
-					<button type="submit" class="btn"></button>
-					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-				</form>
-			</div>
-		</div>
 	</header>
 	<!-- End Header Area -->
+    @yield('navbar')
 
 	<!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">
@@ -127,16 +114,28 @@ margin: 0;">
     </section>
     <!-- End Banner Area -->
 
-	<div class="container" style="flex: 5;
-	margin-bottom: 320px;">
+	<div class="container">
 		@yield('content')
 	</div>
 
+    @if (session('success'))
+    <div class="success-message">
+        <p>{{ session('success') }}</p>
+    </div>
+    @elseif(session('error'))
+        <div class="success-message">
+            <p>{{ session('error') }}</p>
+        </div>
+    @endif
+    @if (session('hapus'))
+    <div class="success-message">
+        <p>{{ session('hapus') }}</p>
+    </div>
+    @endif
+
 
 	<!-- start footer Area -->
-	<footer class="footer-area section_gap" style="background-color: #333;
-	color: #fff;
-	padding: 50px;">
+	<footer class="footer-area section_gap">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3  col-md-6 col-sm-6">
@@ -230,5 +229,33 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script src="{{ asset('asset/js/gmaps.min.js')}}"></script>
 	<script src="{{ asset('asset/js/main.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $(".success-message").delay(3000).fadeOut(500); // Hide after 3 seconds
+        });
+    </script>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script>
+        var map = L.map('map').setView([-7.668707, 111.108892], 10, {
+                    "animate": true,
+                    "pan": {
+                        "duration": 30
+                    }
+                    });
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 30,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        var marker = L.marker([-7.668707, 111.108892]).addTo(map);
+        setTimeout(() => {
+            map.flyTo([-7.668707, 111.108892], 15, {
+            animate: true,
+            duration: 2
+            });
+        },1000);
+    </script>
 </body>
 </html>

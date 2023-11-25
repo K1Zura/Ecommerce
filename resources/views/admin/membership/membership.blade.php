@@ -1,7 +1,7 @@
 @extends('template.template')
 @section('content')
-@section('title', 'Home')
-@section('pertama', 'User')
+@section('title', 'Membership')
+@section('pertama', 'Membership')
 <div class="col-sm-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>

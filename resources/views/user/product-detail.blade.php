@@ -2,49 +2,60 @@
 @section('content')
 @section('title', 'Detail Produk')
 @section('akhir', 'Detail Produk')
+@section('judul', 'Detail')
+<style>
+    .d-grid {
+        display: grid;
+    }
 
-<!--================Single Product Area =================-->
-<div class="product_image_area">
-    <div class="container">
-        <form action="" method="GET">
-        <div class="row s_product_inner">
-            @foreach ($barang as $item)
-            <div class="col-lg-6">
-                <div class="s_Product_carousel">
-                    <div class="single-prd-item">
-                        <img src="{{ asset('storage/photo/'.$item->image) }}" alt="" class="img-fluid">
+    .gap-2 {
+        gap: 2rem; /* Adjust the gap as needed */
+    }
+
+    .genric-btn {
+        /* Your button styles */
+        padding: 10px; /* Adjust padding as needed */
+        width: 100%; /* Make the button take up the full width of its container */
+    }
+</style>
+
+<form action="" method="GET">
+    <!--================Single Product Area =================-->
+    <style>
+        .product_image_area img {
+            width: 100cm; /* Ensures the image takes the full width of its container */
+            height: 400px; /* Set a fixed height for all images */
+            object-fit: cover; /* Ensures the image covers the container without stretching */
+        }
+    </style>
+    <div class="product_image_area">
+        <div class="container">
+            <div class="row s_product_inner">
+                <div class="col-lg-6">
+                    <div class="col-lg-6">
+                        <div class="image-container">
+                            <img src="{{ asset('storage/photo/'.$barang->image) }}" alt="" class="img-fluid">
+                        </div>
                     </div>
                 </div>
-            </div>
-            @endforeach
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
-                    <h3>Faded SkyBlu Denim Jeans</h3>
-                    <h2>$149.99</h2>
+                    <h3>{{$barang->name}}</h3>
+                    <h2>Rp.{{$barang->harga}}</h2>
                     <ul class="list">
-                        <li><a class="active" href="#"><span>Category</span> : Household</a></li>
-                        <li><a href="#"><span>Availibility</span> : In Stock</a></li>
+                        <li><a class="active" href="#"><span>Category</span> : {{$barang->kategori}}</a></li>
+                        <li>
+                            @if($barang->contain > 0)
+                                <a href="#"><span>Availibility</span> : In Stock</a>
+                            @else
+                                <a href="#"><span>Availibility</span> : Out of Stock</a>
+                            @endif
+                        </li>
                     </ul>
-                    <p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
-                        something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
-                        during the winter.</p>
-                    <div class="product_count">
-                        <label for="qty">Quantity:</label>
-                        <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                         class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                         class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                    </div>
-                    <div class="card_area d-flex align-items-center">
-                        <a class="primary-btn" href="#">Add to Cart</a>
-                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
-                    </div>
+                    <p>{{$barang->deskripsi}}</p>
                 </div>
             </div>
         </div>
-        </form>
     </div>
 </div>
 <!--================End Single Product Area =================-->
@@ -71,21 +82,7 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <p>Beryl Cook is one of Britain’s most talented and amusing artists .Beryl’s pictures feature women of all shapes
-                    and sizes enjoying themselves .Born between the two world wars, Beryl Cook eventually left Kendrick School in
-                    Reading at the age of 15, where she went to secretarial school and then into an insurance office. After moving to
-                    London and then Hampton, she eventually married her next door neighbour from Reading, John Cook. He was an
-                    officer in the Merchant Navy and after he left the sea in 1956, they bought a pub for a year before John took a
-                    job in Southern Rhodesia with a motor company. Beryl bought their young son a box of watercolours, and when
-                    showing him how to use it, she decided that she herself quite enjoyed painting. John subsequently bought her a
-                    child’s painting set for her birthday and it was with this that she produced her first significant work, a
-                    half-length portrait of a dark-skinned lady with a vacant expression and large drooping breasts. It was aptly
-                    named ‘Hangover’ by Beryl’s husband and</p>
-                <p>It is often frustrating to attempt to plan meals that are designed for one. Despite this fact, we are seeing
-                    more and more recipe books and Internet websites that are dedicated to the act of cooking for one. Divorce and
-                    the death of spouses or grown children leaving for college are all reasons that someone accustomed to cooking for
-                    more than one would suddenly need to learn how to adjust all the cooking practices utilized before into a
-                    streamlined plan of cooking that is more efficient for one person creating less</p>
+                <p>{{$barang->deskripsi}}</p>
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="table-responsive">
@@ -96,7 +93,7 @@
                                     <h5>Width</h5>
                                 </td>
                                 <td>
-                                    <h5>128mm</h5>
+                                    <h5>{{$barang->width}}cm</h5>
                                 </td>
                             </tr>
                             <tr>
@@ -104,15 +101,7 @@
                                     <h5>Height</h5>
                                 </td>
                                 <td>
-                                    <h5>508mm</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5>Depth</h5>
-                                </td>
-                                <td>
-                                    <h5>85mm</h5>
+                                    <h5>{{$barang->height}}cm</h5>
                                 </td>
                             </tr>
                             <tr>
@@ -120,39 +109,15 @@
                                     <h5>Weight</h5>
                                 </td>
                                 <td>
-                                    <h5>52gm</h5>
+                                    <h5>{{$barang->weight}}g</h5>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <h5>Quality checking</h5>
+                                    <h5>Amount</h5>
                                 </td>
                                 <td>
-                                    <h5>yes</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5>Freshness Duration</h5>
-                                </td>
-                                <td>
-                                    <h5>03days</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5>When packeting</h5>
-                                </td>
-                                <td>
-                                    <h5>Without touch of hand</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5>Each Box contains</h5>
-                                </td>
-                                <td>
-                                    <h5>60pcs</h5>
+                                    <h5>{{$barang->contain}}</h5>
                                 </td>
                             </tr>
                         </tbody>
@@ -162,6 +127,8 @@
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="row">
                     <div class="col-lg-6">
+                        <form action="/comment" method="get">
+                            @foreach($comment as $item)
                         <div class="comment_list">
                             <div class="review_item">
                                 <div class="media">
@@ -169,51 +136,23 @@
                                         <img src="img/product/review-1.png" alt="">
                                     </div>
                                     <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2018 at 05:56 pm</h5>
+                                        <h4>{{$item->name}}</h4>
+                                        <h5>{{$item->created_at}}</h5>
                                         <a class="reply_btn" href="#">Reply</a>
                                     </div>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                            <div class="review_item reply">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="img/product/review-2.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                        <a class="reply_btn" href="#">Reply</a>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="img/product/review-3.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                        <a class="reply_btn" href="#">Reply</a>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
+                                <p>{{$item->deskripsi}}</p>
+                                <br>
                             </div>
                         </div>
+                        @endforeach
+                        </form>
                     </div>
                     <div class="col-lg-6">
                         <div class="review_box">
                             <h4>Post a comment</h4>
-                            <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                            <form class="row contact_form" action="/comment-add/{{$barang->id}}" method="post" id="contactForm">
+                                @csrf
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
@@ -226,12 +165,19 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="number" name="number" placeholder="Phone Number">
+                                        <input type="text" class="form-control" id="number" name="nomor" placeholder="Phone Number">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
+                                        <textarea class="form-control" name="deskripsi" id="message" rows="1" placeholder="Message"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" hidden>
+                                    <div class="form-group">
+                                        <select name="product_id" id="product_id" class="form-control">
+                                            <option value="{{ $barang->id }}">{{ $barang->id }}</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-right">
@@ -370,8 +316,21 @@
                 </div>
             </div>
         </div>
+        <br>
+        <form action="/product-update/{{$barang->id}}">
+            <div class="d-grid gap-2">
+                <button class="genric-btn warning">Update</button>
+            </div>
+        </form>
+        <form action="/product-delete/{{$barang->id}}" method="POST">
+            @method('DELETE')
+            @csrf
+            <div class="d-grid gap-2">
+                <button class="genric-btn danger" type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">Hapus</button>
+            </div>
+        </form>
     </div>
 </section>
 <!--================End Product Description Area =================-->
-
+</form>
 @endsection

@@ -3,7 +3,7 @@
 @section('content')
 @section('title', 'Store')
 @section('akhir', 'Store')
-
+@section('judul', 'Store')
 <div class="container">
     <h3 style="font-family: cursive">Selamat Datang di K1ZuraStore</h3>
     <hr>

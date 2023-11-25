@@ -70,7 +70,7 @@
 							<div class="col-md-12 form-group">
 								<input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
 							</div>
-							<div class="col-md-12 form-group">
+							<div class="col-md-12 form-group" hidden>
 								<select name="role_id" id="">
 									<option value="2">User</option>
 								</select>
