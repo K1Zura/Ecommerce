@@ -31,15 +31,21 @@ Route::middleware(['middleware'=>'auth'])->group(function () {
 
     Route::get('/user', [AuthController::class, 'user']);
     Route::get('/data-user', [UserController::class, 'data_user']);
-    Route::get('/data-produk', [UserController::class, 'data_produk']);
+    Route::get('/update-user/{id}', [UserController::class, 'update_user']);
     Route::put('/user-update/{id}', [UserController::class, 'user_update']);
-    Route::put('/update/{id}', [UserController::class, 'update_user']);
-
     Route::delete('/user-delete/{id}', [UserController::class, 'delete']);
+    Route::get('/data-produk', [UserController::class, 'data_produk']);
+    Route::get('/detail-produk/{id}', [UserController::class, 'produk_detail']);
+    Route::get('/update-produk/{id}', [UserController::class, 'produk_update']);
+    Route::put('/update-produk-data/{id}', [UserController::class, 'produk_update_data']);
+    Route::delete('/delete-produk/{id}', [UserController::class, 'delete_produk']);
 
     Route::get('/membership', [UserController::class, 'membership']);
     Route::get('/data-membership', [UserController::class, 'data_membership']);
+    Route::get('/update-membership/{id}', [UserController::class, 'update_membership']);
+    Route::put('/update/{id}', [UserController::class, 'membership_update']);
     Route::get('/produk-membership', [UserController::class, 'produk_membership']);
+    Route::delete('/delete-membership/{id}', [UserController::class, 'delete_membership']);
 
     Route::get('/logout', [AuthController::class, 'logout']);
 });
@@ -71,16 +77,22 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/contact', [StoreController::class, 'contact']);
 
     Route::get('/wishlist/add/{productId}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
-    Route::get('/wishlist', [WishlistController::class, 'viewWishlist'])->name('wishlist.view');
+    Route::get('/wishlist', [WishlistController::class, 'viewWishlist'])->name('wishlist.view')->middleware('auth.user');
     Route::get('/wishlist/remove/{productId}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
 
-    Route::get('/bag', [BagController::class, 'index'])->name('bag.index');
-    Route::post('/add-to-bag/{product}', [BagController::class, 'add'])->name('bag.add');
+    Route::get('/bag', [StoreController::class, 'bag'])->middleware('auth.user');
+    Route::get('/add-to-bag/add/{productId}', [BagController::class, 'add'])->name('bag.add');
 
-    Route::get('/checkout/{id}]', [StoreController::class, 'checkout']);
+    Route::get('/checkout/{id}', [StoreController::class, 'checkout'])->middleware('auth.user');
+    Route::post('/checkout-add/{id}', [StoreController::class, 'checkout_add']);
 
-    Route::get('/bag', [StoreController::class, 'bag'])->name('add.cart');
-    Route::get('/profil', [UserProfileController::class, 'profil']);
+    Route::get('/profil/{id}', [UserProfileController::class, 'profil']);
+    Route::put('/profil-add/{id}', [UserProfileController::class, 'profil_add']);
+
+    Route::get('/confirm', [StoreController::class, 'confirm']);
+
+    Route::get('/membership/{id}', [StoreController::class, 'membership']);
+    Route::put('/membership-update/{id}', [StoreController::class, 'membership_update']);
 });
 
 Route::middleware(['checkRole:1'])->group(function () {
@@ -89,6 +101,7 @@ Route::middleware(['checkRole:1'])->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::get('/data-user', [UserController::class, 'data_user']);
     Route::get('/data-produk', [UserController::class, 'data_produk']);
+    Route::get('/validate/{id}', [UserController::class, 'validateProduct']);
 
     Route::get('/membership', [UserController::class, 'membership']);
     Route::get('/data-membership', [UserController::class, 'data_membership']);

@@ -54,14 +54,14 @@ class UserController extends Controller
         $user = User::get();
         return view('admin/user/data-user', ['user' => $user]);
     }
+    public function update_user($id){
+        $user = User::findOrFail($id);
+        return view('admin/user/update-user', ['user' => $user]);
+    }
     public function user_update(request $request, $id){
         $user = User::findOrFail($id);
-        return view('admin/user/user-update');
-    }
-    public function update(request $request, $id){
-        $user = User::findOrFail($id);
         $user->update($request->all());
-        return redirect('/');
+        return redirect('/data-user');
     }
     public function delete($id){
         $deletedProduct = User::find($id);
@@ -72,6 +72,41 @@ class UserController extends Controller
         $product = product::orderBy('id', 'desc')->paginate(6);
         return view('admin/user/data-produk', ['barang' => $product]);
     }
+    public function produk_detail($id){
+        $product = Product::findOrFail($id);
+        return view('admin/user/detail-produk', ['barang' => $product]);
+    }
+    public function produk_update(request $request, $id){
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
+        return view('admin/user/update-produk', ['barang' => $product]);
+    }
+    public function produk_update_data(request $request, $id){
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
+        return redirect('/data-produk');
+    }
+    public function delete_produk($id){
+        $deletedProduct = Product::find($id);
+
+        $file = storage_path('app/public/photo/') . $deletedProduct->image;
+
+        if (file_exists($file)) {
+            unlink($file);
+        }
+
+        $deletedProduct->delete();
+        return redirect('/data-produk');
+    }
+    public function validateProduct(request $request, $id)
+    {
+        // dd('/data-produk?page='.$request->page);
+        $product = Product::findOrFail($id);
+        $product->validated = true;
+        $product->save();
+
+        return redirect('/data-produk?page='.$request->page)->with('success', 'Product validated successfully.');
+    }
 
     public function membership(){
         return view('admin/membership/membership');
@@ -80,8 +115,14 @@ class UserController extends Controller
         $user = User::get();
         return view('admin/membership/data-membership', ['user' => $user]);
     }
+    public function delete_membership($id){
+        $deletedProduct = User::find($id);
+        $deletedProduct->delete();
+        return redirect('/data-membership');
+    }
     public function produk_membership(){
-        $product = product::get();
-        return view('admin/membership/produk-membership', ['barang' => $product]);
+        $product = product::where('user_id', 6)->orderBy('id', 'desc')->get();
+        $user = User::get();
+        return view('admin/membership/produk-membership', ['barang' => $product], ['user' => $user]);
     }
 }

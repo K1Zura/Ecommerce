@@ -1,3 +1,84 @@
+@extends('template.template-user')
+@section('content')
+@section('title', 'Detail Produk')
+@section('akhir', 'Detail Produk')
+@section('judul', 'Detail')
+<style>
+    .d-grid {
+        display: grid;
+    }
+
+    .gap-2 {
+        gap: 2rem; /* Adjust the gap as needed */
+    }
+
+    .genric-btn {
+        /* Your button styles */
+        padding: 10px; /* Adjust padding as needed */
+        width: 100%; /* Make the button take up the full width of its container */
+    }
+</style>
+
+<form action="" method="GET">
+    <!--================Single Product Area =================-->
+    <style>
+        .product_image_area img {
+            width: 100cm; /* Ensures the image takes the full width of its container */
+            height: 400px; /* Set a fixed height for all images */
+            object-fit: cover; /* Ensures the image covers the container without stretching */
+        }
+    </style>
+    <div class="product_image_area">
+        <div class="container">
+            <div class="row s_product_inner">
+                <div class="col-lg-6">
+                    <div class="col-lg-6">
+                        <div class="image-container">
+                            <img src="{{ asset('storage/photo/'.$barang->image) }}" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <h3>{{$barang->name}}</h3>
+                    <h2>Rp.{{ number_format($barang->harga, 2, '.', ',') }}</h2>
+                    <ul class="list">
+                        <li><a href="#"><span>Company</span> : {{$barang->company->name}}</a></li>
+                        <li><a href="#"><span>Category</span> : {{$barang->kategori}}</a></li>
+                        <li>
+                            @if($barang->contain > 0)
+                                <a href="#"><span>Availibility</span> : In Stock</a>
+                            @else
+                                <a href="#"><span>Availibility</span> : Out of Stock</a>
+                            @endif
+                        </li>
+                        <li><h6><a href="https://wa.me/6289667916464" target="_blank">
+                            <span>Contact</span> : 0896-6791-6464 <strong>(WhatsApp)</strong></a></h6></li>
+                    <p>{{$barang->deskripsi}}</p>
+                    <div class="product_count">
+                        <label for="qty">Quantity:</label>
+                        <input type="text" name="qty" id="sst_{{$barang->id}}" maxlength="12" value="" title="Quantity:" class="input-text qty">
+                        <button onclick="increaseQuantity('{{$barang->id}}')" class="increase items-count" type="button">
+                            <i class="lnr lnr-chevron-up"></i></button>
+                        <button onclick="decreaseQuantity('{{$barang->id}}')" class="reduced items-count" type="button">
+                            <i class="lnr lnr-chevron-down"></i></button>
+                    </div>
+                    <div class="card_area d-flex align-items-center">
+                        @if(Auth::guard('user'))
+                        <a class="primary-btn" href="/checkout/{{$barang->id}}">BUY</a>
+                        <a class="icon_btn" href="{{ route('wishlist.add', ['productId' => $barang->id]) }}"><i class="lnr lnr lnr-heart"></i></a>
+                        @else
+                        <!-- Display a message or a link to the login page -->
+                        <p>Please <a href="{{ route('login') }}">log in</a> to add to wishlist.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================End Single Product Area =================-->
+
 <!--================Product Description Area =================-->
 <section class="product_description_area">
     <div class="container">
@@ -63,34 +144,33 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                <form action="/comment" method="get">
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="comment_list">
-                                    <div class="review_item">
-                                        <div class="media">
-                                            <div class="d-flex">
-                                                <img src="img/product/review-1.png" alt="">
-                                            </div>
-                                            <div class="media-body">
-                                                <h4></h4>
-                                                <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                            </div>
-                                        </div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                            commodo</p>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form action="/comment" method="get">
+                            @foreach($comment as $item)
+                        <div class="comment_list">
+                            <div class="review_item">
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img src="img/product/review-1.png" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>{{$item->name}}</h4>
+                                        <h5>{{$item->created_at}}</h5>
+                                        <a class="reply_btn" href="#">Reply</a>
                                     </div>
                                 </div>
+                                <p>{{$item->deskripsi}}</p>
+                                <br>
                             </div>
                         </div>
-
-                    </form>
+                        @endforeach
+                        </form>
+                    </div>
                     <div class="col-lg-6">
                         <div class="review_box">
                             <h4>Post a comment</h4>
-                            <form class="row contact_form" action="/comment-add" method="post" id="contactForm" novalidate="novalidate">
+                            <form class="row contact_form" action="/comment-add/{{$barang->id}}" method="post" id="contactForm">
                                 @csrf
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -104,12 +184,19 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="number" name="number" placeholder="Phone Number">
+                                        <input type="text" class="form-control" id="number" name="nomor" placeholder="Phone Number">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <textarea class="form-control" name="message" id="message" rows="10" placeholder="Message"></textarea>
+                                        <textarea class="form-control" name="deskripsi" id="message" rows="1" placeholder="Message"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" hidden>
+                                    <div class="form-group">
+                                        <select name="product_id" id="product_id" class="form-control">
+                                            <option value="{{ $barang->id }}">{{ $barang->id }}</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-right">
@@ -248,21 +335,25 @@
                 </div>
             </div>
         </div>
-        <br>
-        <form action="/product-update/{{$barang->id}}">
-            <div class="d-grid gap-2">
-                <button class="genric-btn warning">Update</button>
-            </div>
-        </form>
-        <form action="/product-delete/{{$barang->id}}" method="POST">
-            @method('DELETE')
-            @csrf
-            <div class="d-grid gap-2">
-                <button class="genric-btn danger" type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">Hapus</button>
-            </div>
-        </form>
     </div>
 </section>
 <!--================End Product Description Area =================-->
+</form>
+<script>
+    function increaseQuantity(productId) {
+    var result = document.getElementById('sst_' + productId);
+    var sst = result.value;
+    if (!isNaN(sst)) result.value++;
+    updateTotal(productId);
+    return false;
+}
 
-<div class="info_item"></div>
+function decreaseQuantity(productId) {
+    var result = document.getElementById('sst_' + productId);
+    var sst = result.value;
+    if (!isNaN(sst) && sst > 0) result.value--;
+    updateTotal(productId);
+    return false;
+}
+</script>
+@endsection

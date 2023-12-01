@@ -45,7 +45,16 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
     public function wishlist()
-{
-    return $this->belongsToMany(Product::class, 'wishlists')->withTimestamps();
-}
+    {
+        return $this->belongsToMany(Product::class, 'wishlists')->withTimestamps();
+    }
+    public function bag()
+    {
+        return $this->belongsToMany(Product::class, 'bags')->withTimestamps();
+    }
+    public function company()
+    {
+        return $this->hasOne(company::class); // Adjust the relationship based on your actual model names and structure
+    }
+
 }

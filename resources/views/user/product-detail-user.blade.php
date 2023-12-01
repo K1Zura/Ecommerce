@@ -41,9 +41,10 @@
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
                     <h3>{{$barang->name}}</h3>
-                    <h2>Rp.{{$barang->harga}}</h2>
+                    <h2>Rp.{{ number_format($barang->harga, 2, '.', ',') }}</h2>
                     <ul class="list">
-                        <li><a class="active" href="#"><span>Category</span> : {{$barang->kategori}}</a></li>
+                        <li><a href="#"><span>Company</span> : {{$barang->company->company}}</a></li>
+                        <li><a href="#"><span>Category</span> : {{$barang->kategori}}</a></li>
                         <li>
                             @if($barang->contain > 0)
                                 <a href="#"><span>Availibility</span> : In Stock</a>
@@ -52,23 +53,14 @@
                             @endif
                         </li>
                         <li><h6><a href="https://wa.me/6289667916464" target="_blank">
-                            <span>Contact</span> :0896-6791-6464 <strong>(WhatsApp)</strong></a></h6></li>
+                            <span>Contact</span> : 0896-6791-6464 <strong>(WhatsApp)</strong></a></h6></li>
                     <p>{{$barang->deskripsi}}</p>
-                    <div class="product_count">
-                        <label for="qty">Quantity:</label>
-                        <input type="text" name="qty" id="sst_{{$barang->id}}" maxlength="12" value="" title="Quantity:" class="input-text qty">
-                        <button onclick="increaseQuantity('{{$barang->id}}')" class="increase items-count" type="button">
-                            <i class="lnr lnr-chevron-up"></i></button>
-                        <button onclick="decreaseQuantity('{{$barang->id}}')" class="reduced items-count" type="button">
-                            <i class="lnr lnr-chevron-down"></i></button>
-                    </div>
                     <div class="card_area d-flex align-items-center">
-                        @if(Auth::guard('user'))
                         <a class="primary-btn" href="/checkout/{{$barang->id}}">BUY</a>
+                        @if(Auth::guard('user'))
                         <a class="icon_btn" href="{{ route('wishlist.add', ['productId' => $barang->id]) }}"><i class="lnr lnr lnr-heart"></i></a>
                         @else
-                        <!-- Display a message or a link to the login page -->
-                        <p>Please <a href="{{ route('login') }}">log in</a> to add to wishlist.</p>
+                            <a href="{{ route('login') }}">log in</a>
                         @endif
                     </div>
                 </div>
@@ -239,43 +231,7 @@
                             <div class="review_item">
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="img/product/review-1.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="img/product/review-2.png" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <h4>Blake Ruiz</h4>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    commodo</p>
-                            </div>
-                            <div class="review_item">
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="img/product/review-3.png" alt="">
+                                        <img src="" alt="">
                                     </div>
                                     <div class="media-body">
                                         <h4>Blake Ruiz</h4>

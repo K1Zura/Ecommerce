@@ -37,7 +37,8 @@
                       </thead>
                       <tbody>
                         @foreach($barang as $item)
-                        @if ($item->user_id == 1)
+                        @foreach($user as $users)
+                        @if ($users->role_id == 3)
                             <tr>
                           <td>
                             {{$item->name}}
@@ -55,7 +56,11 @@
                             {{$item->created_at}}
                           </td>
                           <td>
-                            <button class="btn btn-primary">Validasi</button>
+                            @if($item->validated)
+                                <span class="badge badge-success">Validated</span>
+                            @else
+                                <a href="{{url('/validate')}}/{{$item->id}}?page={{app('request')->page??1}}" class="btn btn-primary btn-sm">Validate</button>
+                            @endif
                           </td>
                           <td>
                             <button class="btn btn-info">Detail</button>
@@ -70,6 +75,7 @@
                           </td>
                         </tr>
                         @endif
+                        @endforeach
                         @endforeach
                       </tbody>
                     </table>

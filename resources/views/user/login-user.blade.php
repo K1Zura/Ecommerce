@@ -5,7 +5,7 @@
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon-->
-	<link rel="shortcut icon" href="asset/img/logo.png" />
+	<link rel="shortcut icon" href="{{ asset('asset/img/logo.png?v=2')}}" />
 	<!-- Author Meta -->
 	<meta name="author" content="CodePixar">
 	<!-- Meta Description -->
@@ -91,7 +91,7 @@
 	<!--================End Login Box Area =================-->
 
 
-	<script src="asset/js/vendor/jquery-2.2.4.min.js"></script>
+	<script src="{{ asset('asset/js/vendor/jquery-2.2.4.min.js')}}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 	 crossorigin="anonymous"></script>
 	<script src="{{ asset('asset/js/vendor/bootstrap.min.js')}}"></script>

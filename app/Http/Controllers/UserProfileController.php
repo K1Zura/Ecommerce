@@ -12,4 +12,13 @@ class UserProfileController extends Controller
         return view('user/profil', ['user' => $user]);
     }
 
+    public function profil_add(Request $request, $id){
+        $user = User::findOrFail($id);
+        $user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+        ]);
+
+        return redirect('/');
+    }
 }

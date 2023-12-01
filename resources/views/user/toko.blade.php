@@ -8,15 +8,19 @@
     <h3 style="font-family: cursive">Selamat Datang di K1ZuraStore</h3>
     <hr>
     <div class="row">
-        <div class="col-md-6 mb-3">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Belum Punya Toko?</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Ayo Buat!</h6>
-                    <a href="/toko-add" style="color: coral" class="card-link">Tambah Toko</a>
+        @if (auth('user')->check())
+            @if (!auth('user')->user()->company)
+                <div class="col-md-6 mb-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Belum Punya Toko?</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Ayo Buat!</h6>
+                            <a href="/toko-add" style="color: coral" class="card-link">Tambah Toko</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            @endif
+        @endif
         <div class="col-md-6 mb-3">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">

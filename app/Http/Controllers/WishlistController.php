@@ -17,16 +17,14 @@ class WishlistController extends Controller
         $user = Auth::guard('user')->user();
         $product = product::find($productId);
 
-        // Check if the user is authenticated
         if (!$user) {
-            return redirect()->route('login-user'); // Redirect to login page if not authenticated
+            return redirect()->route('login-user');
         }
         if ($user->wishlist->contains($product)) {
             return redirect()->back()->with('error', 'Product is already in the wishlist.');
         }
         $user->wishlist()->attach($product);
-
-        return redirect()->back()->with('success', 'Product add from wishlist.');;
+        return redirect()->back()->with('success', 'Product add to wishlist.');;
     }
     public function viewWishlist()
     {
@@ -37,10 +35,8 @@ class WishlistController extends Controller
     public function removeFromWishlist($productId)
     {
         $user = Auth::guard('user')->user();
-
-        // Check if the user is authenticated
         if (!$user) {
-            return redirect()->route('login-user'); // Redirect to login page if not authenticated
+            return redirect()->route('login-user');
         }
         $user->wishlist()->detach($productId);
 

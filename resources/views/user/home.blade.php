@@ -27,7 +27,7 @@
 							<img src="asset/img/features/f-icon1.png" alt="">
 						</div>
 						<h6>Free Delivery</h6>
-						<p>Free Shipping on all order</p>
+						<p>Gratis Ongkir</p>
 					</div>
 				</div>
 				<!-- single features -->
@@ -37,7 +37,7 @@
 							<img src="asset/img/features/f-icon2.png" alt="">
 						</div>
 						<h6>Return Policy</h6>
-						<p>Free Shipping on all order</p>
+						<p>Bisa refond</p>
 					</div>
 				</div>
 				<!-- single features -->
@@ -47,7 +47,7 @@
 							<img src="asset/img/features/f-icon3.png" alt="">
 						</div>
 						<h6>24/7 Support</h6>
-						<p>Free Shipping on all order</p>
+						<p>Bisa berkonsultasi jika ada masalah</p>
 					</div>
 				</div>
 				<!-- single features -->
@@ -57,7 +57,7 @@
 							<img src="asset/img/features/f-icon4.png" alt="">
 						</div>
 						<h6>Secure Payment</h6>
-						<p>Free Shipping on all order</p>
+						<p>Keamanan Pembayaran</p>
 					</div>
 				</div>
 			</div>
@@ -168,23 +168,35 @@
                                     <div class="product-details">
                                         <h6>{{$item->name}}</h6>
                                         <div class="price">
-                                            <h6>{{$item->harga}}</h6>
+                                            <h6>Rp.{{ number_format($item->harga, 2, '.', ',') }}</h6>
                                             <h6 class="l-through"></h6>
                                         </div>
                                         <div class="prd-bottom">
-                                            <a href="" class="social-info">
-                                                <span class="ti-bag"></span>
-                                                <p class="hover-text">add to bag</p>
-                                            </a>
-                                            @if(Auth::guard('user'))
-                                            <a href="{{ route('wishlist.add', ['productId' => $item->id]) }}" class="social-info">
-                                                <span class="lnr lnr-heart"></span>
-                                                <p class="hover-text">Add to Wishlist</p>
-                                            </a>
+                                            @guest('user', 'membership')
+                                                <a href="{{ route('bag.add', ['productId' => $item->id]) }}" class="social-info">
+                                                    <span class="ti-bag"></span>
+                                                    <p class="hover-text">add to bag</p>
+                                                </a>
+                                                <a href="{{ route('wishlist.add', ['productId' => $item->id]) }}" class="social-info">
+                                                    <span class="lnr lnr-heart"></span>
+                                                    <p class="hover-text">Add to Wishlist</p>
+                                                </a>
                                             @else
-                                                <!-- Display a message or a link to the login page -->
-                                                <p>Please <a href="{{ route('login') }}">log in</a> to add to wishlist.</p>
-                                            @endif
+                                                @if(auth('user')->check())
+                                                    <a href="{{ route('bag.add', ['productId' => $item->id]) }}" class="social-info">
+                                                        <span class="ti-bag"></span>
+                                                        <p class="hover-text">add to bag</p>
+                                                    </a>
+                                                @endif
+
+                                                @if(auth('user')->check())
+                                                    <a href="{{ route('wishlist.add', ['productId' => $item->id]) }}" class="social-info">
+                                                        <span class="lnr lnr-heart"></span>
+                                                        <p class="hover-text">Add to Wishlist</p>
+                                                    </a>
+                                                @endif
+                                            @endguest
+
                                             <a href="/product-detail-user/{{$item->id}}" class="social-info">
                                                 <span class="lnr lnr-move"></span>
                                                 <p class="hover-text">view more</p>

@@ -7,20 +7,6 @@
 /* Wide Mobile Layout: 480px */
 /* Section Gaps css
 ============================================================================================ */
-
-.lattest-product-area .row {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.lattest-product-area .col-lg-4 {
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-}
-
-/* Tambahkan gaya tambahan sesuai kebutuhan desain Anda */
-
-
 .no-padding {
   padding: 0; }
 

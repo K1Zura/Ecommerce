@@ -22,9 +22,6 @@
                             Kategori
                           </th>
                           <th>
-                            Image
-                          </th>
-                          <th>
                             Dibuat Tanggal
                           </th>
                           <th>
@@ -48,23 +45,22 @@
                             {{$item->kategori}}
                           </td>
                           <td>
-                            {{asset('storage/photo/'.$item->image)}}
-                          </td>
-                          <td>
                             {{$item->created_at}}
                           </td>
                           <td>
-                            <button class="btn btn-primary">Validasi</button>
+                            @if($item->validated)
+                                <span class="badge badge-success">Validated</span>
+                            @else
+                                <a href="{{url('/validate')}}/{{$item->id}}?page={{app('request')->page??1}}" class="btn btn-primary btn-sm">Validate</button>
+                            @endif
                           </td>
                           <td>
-                            <button class="btn btn-info">Detail</button>
-                            <form action="/user-update/{{$item->id}}">
-                                <button class="btn btn-warning">Update</button>
-                            </form>
-                            <form action="/user-delete/{{$item->id}}" method="POST">
+                            <a href="/detail-produk/{{$item->id}}" class="btn btn-info">Detail</a>
+                                <a class="btn btn-warning" href="/update-produk/{{$item->id}}">Update</a>
+                            <form action="/delete-produk/{{$item->id}}" method="POST">
                                 @method('DELETE')
                                 @csrf
-                                <button class="btn btn-danger">Delete</button>
+                                <button class="btn btn-danger" type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">Delete</button>
                             </form>
                           </td>
                         </tr>

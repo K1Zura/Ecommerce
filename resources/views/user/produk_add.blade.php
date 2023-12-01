@@ -63,6 +63,12 @@
                         </select>
                         <label for="akun" class="container" style="font-family: 'Times New Roman', Times, serif">Akun</label>
                     </div>
+                    <div class="col-md-12 form-group" hidden>
+                        <select name="company_id" class="form-control">
+                            <option value="{{ Auth::guard('user')->user()->company->id }}">{{ Auth::guard('user')->user()->company->id }}</option>
+                        </select>
+                        <label for="akun" class="container" style="font-family: 'Times New Roman', Times, serif">Akun</label>
+                    </div>
                     <br>
 
                     <div class="col-md-12 form-group">

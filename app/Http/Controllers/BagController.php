@@ -2,29 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BagController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
     public function index()
     {
-        $bag = auth('user')->user()->bag;
-        return view('user/bag', ['bag' => $bag->bag]);
+        $user = Auth::guard('user')->user();
+        return view('user/bag', ['bag' => $user->bag]);
     }
 
-    public function add(Product $product)
+    public function add($productId)
     {
-        $user = auth('user')->user();
-
-        if ($user->bag()->where('product_id', $product->id)->exists()) {
-            return redirect()->back()->with('info', 'Product already in the bag.');
+        $user = Auth::guard('user')->user();
+        $user->load('bag');
+        $product = Product::find($productId);
+        if (!$user) {
+            return redirect()->route('login-user');
         }
-
-        $user->bag()->create([
-            'product_id' => $product->id,
-            'quantity' => 1,
-        ]);
-
-        return redirect()->route('bag.index')->with('success', 'Product added to the bag successfully.');
+        if ($user->bags && $user->bags->contains($product)) {
+            return redirect()->back()->with('error', 'Product is already in the bag.');
+        }
+        $user->bag()->attach($product);
+        return redirect()->back()->with('success', 'Product added to bag.');
     }
+
 }
+

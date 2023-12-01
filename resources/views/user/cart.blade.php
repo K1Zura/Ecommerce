@@ -6,7 +6,6 @@
 <!--================Cart Area =================-->
 <section class="cart_area">
     <form action="" method="GET">
-        @foreach ($barang as $item)
     <div class="container">
         <div class="cart_inner">
             <div class="table-responsive">
@@ -14,55 +13,54 @@
                     <thead>
                         <tr>
                             <th scope="col">Product</th>
-                            <th scope="col">Price</th>
+                            <th></th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Total</th>
                         </tr>
                     </thead>
+
                     <tbody>
+                        @foreach ($bag as $item)
                         <tr>
                             <td>
-                                <div class="media">
-                                    <div class="d-flex">
-                                    </div>
-                                    <div class="media-body">
-                                    </div>
-                                </div>
+                                {{$item->name}}
                             </td>
                             <td>
+                                <img src="{{asset('storage/photo/'.$item->image)}}" alt="" width="100px">
                             </td>
                             <td>
                                 <div class="product_count">
-                                    <input type="text" name="qty" id="sst" maxlength="12" value="" title="Quantity:"
-                                        class="input-text qty">
-                                    <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                        class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                    <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                        class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                                    <input type="text" name="total" id="sst" maxlength="12" value="" title="Quantity:" class="input-text qty" onchange="updateTotal()">
+                                    <button onclick="var result = document.getElementById('sst'); var sst = result.value; if (!isNaN(sst)) result.value++; return false;" class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+                                    <button onclick="var result = document.getElementById('sst'); var sst = result.value; if (!isNaN(sst) && sst > 0) result.value--; return false;" class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                                    <script>
+                                        function updateTotal() {
+                                            var quantity = document.getElementById('sst').value;
+                                            var price = {{$item->harga}};
+                                            var total = quantity * price;
+                                            document.getElementById('totalPrice').innerText = 'Rp.' + total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                                        }
+                                        function processOrder() {
+                                            var quantity = document.getElementById('sst').value;
+                                            var totalPrice = document.getElementById('totalPrice').innerText;
+                                            // You can send the quantity and total price to your server for further processing
+                                            console.log('Quantity: ' + quantity);
+                                            console.log('Total Price: ' + totalPrice);
+
+                                            // Add logic to handle the order processing
+                                            // For example, you can use JavaScript to gather shopper details and selected products
+                                            // Then send an AJAX request to the server for order processing
+                                            // You'll need to adapt this code based on your specific implementation
+                                            alert('Order processed!'); // Replace this with your actual order processing logic
+                                        }
+                                    </script>
                                 </div>
                             </td>
                             <td>
-                                <h5></h5>
+                                <h5 class="last" id="totalPrice">Rp.{{ number_format($item->harga, 2, '.', ',') }}</h5>
                             </td>
                         </tr>
-                        <tr class="bottom_button">
-                            <td>
-                                <a class="gray_btn" href="#">Update Cart</a>
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-                                <div class="cupon_text d-flex align-items-center">
-                                    <input type="text" placeholder="Coupon Code">
-                                    <a class="primary-btn" href="#">Apply</a>
-                                    <a class="gray_btn" href="#">Close Coupon</a>
-                                </div>
-                            </td>
-                        </tr>
+                        @endforeach
                         <tr>
                             <td>
 
@@ -89,25 +87,6 @@
                             </td>
                             <td>
                                 <div class="shipping_box">
-                                    <ul class="list">
-                                        <li><a href="#">Flat Rate: $5.00</a></li>
-                                        <li><a href="#">Free Shipping</a></li>
-                                        <li><a href="#">Flat Rate: $10.00</a></li>
-                                        <li class="active"><a href="#">Local Delivery: $2.00</a></li>
-                                    </ul>
-                                    <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
-                                    <select class="shipping_select">
-                                        <option value="1">Bangladesh</option>
-                                        <option value="2">India</option>
-                                        <option value="4">Pakistan</option>
-                                    </select>
-                                    <select class="shipping_select">
-                                        <option value="1">Select a State</option>
-                                        <option value="2">Select a State</option>
-                                        <option value="4">Select a State</option>
-                                    </select>
-                                    <input type="text" placeholder="Postcode/Zipcode">
-                                    <a class="gray_btn" href="#">Update Details</a>
                                 </div>
                             </td>
                         </tr>
@@ -123,8 +102,8 @@
                             </td>
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center">
-                                    <a class="gray_btn" href="#">Continue Shopping</a>
-                                    <a class="primary-btn" href="#">Proceed to checkout</a>
+                                    <a class="gray_btn" href="/shop">Continue Shopping</a>
+                                    <a class="primary-btn" href="#">Proceed to Buy</a>
                                 </div>
                             </td>
                         </tr>
@@ -133,7 +112,6 @@
             </div>
         </div>
     </div>
-    @endforeach
     </form>
 </section>
 <!--================End Cart Area =================-->

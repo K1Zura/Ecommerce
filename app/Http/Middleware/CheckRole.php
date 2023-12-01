@@ -9,12 +9,12 @@ class CheckRole
 {
     public function handle($request, Closure $next, $role)
     {
-        // Cek apakah pengguna sudah login dan memiliki peran yang sesuai
+        // Check if the user is logged in and has the specified role
         if (Auth::check() && Auth::user()->role_id == $role) {
             return $next($request);
         }
 
-        // Jika tidak sesuai, redirect atau berikan respons yang sesuai
+        // If not, redirect or provide an appropriate response
         return redirect('/home')->with('error', 'Unauthorized');
     }
 }

@@ -53,30 +53,30 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="login_form_inner">
-						<h3>Register</h3>
+						<h3>Membership</h3>
+                        <p>Mau menjadi member? <strong>Ayo isi!</strong></p>
 						@if(session('error'))
 							<div class="alert alert-danger">
 								{{ session('error') }}
 							</div>
 						@endif
-						<form class="row login_form" action="/register" method="post" id="contactForm" novalidate="novalidate">
+						<form class="row login_form" action="/membership-update/{{$user->id}}" method="post" id="contactForm" novalidate="novalidate" enctype="multipart/form-data">
+                            @method('PUT')
                             @csrf
                             <div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								<input type="text" class="form-control" id="name" name="name" value="{{$user->name}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
 							</div>
                             <div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="email" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
+								<input type="text" class="form-control" id="email" name="email" value="{{$user->email}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
-							</div>
-							<div class="col-md-12 form-group" hidden>
 								<select name="role_id" id="">
 									<option value="2">User</option>
+                                    <option value="3">Membership</option>
 								</select>
 							</div>
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="primary-btn">Create</button>
+								<button type="submit" value="submit" class="primary-btn">Membership</button>
 							</div>
 						</form>
 					</div>

@@ -6,10 +6,12 @@ use App\Models\User;
 use App\Models\comment;
 use App\Models\company;
 use App\Models\product;
+use App\Models\checkout;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
 {
@@ -37,7 +39,7 @@ class StoreController extends Controller
         $user = User::select('id', 'name');
         return view('user/produk_add', ['user'=>$user]);
     }
-    public function toko_add() {
+    public function toko_add(request $request) {
         return view('user/toko-add');
     }
     public function create_company(request $request){
@@ -59,7 +61,7 @@ class StoreController extends Controller
         return redirect('/product-detail-user')->with('barang', $product);
     }
     public function detail_user(request $request, $id){
-        $product = product::findOrFail($id);
+        $product = product::with('company')->findOrFail($id);
         $comment = comment::get();
         return view('user/product-detail-user', ['barang' => $product], ['comment' => $comment]);
     }
@@ -107,12 +109,27 @@ class StoreController extends Controller
 
     public function checkout(request $request, $id){
         $product = product::findOrFail($id);
-        $product = product::get();
         return view('user/checkout', ['barang' => $product]);
+    }
+    public function checkout_add(request $request, $id){
+        $checkout = checkout::create($request->all());
+        return view('user/confirm', ['barang' => $checkout]);
     }
 
     public function bag(request $request){
-        $product = product::get();
-        return view('user/cart', ['barang' => $product]);
+        $user = Auth::guard('user')->user();
+        return view('user/cart', ['bag' => $user->bag]);
+    }
+    public function confirm(){
+        return view('user/confirm');
+    }
+    public function membership(request $request, $id){
+        $user = user::findOrFail($id);
+        return view('user/membership', ['user' => $user]);
+    }
+    public function membership_update(request $request, $id){
+        $user = user::findOrFail($id);
+        $user->update($request->all());
+        return redirect('/');
     }
 }

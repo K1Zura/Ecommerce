@@ -15,9 +15,9 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->insert([
-            'name'=>'K1Zura',
-            'email'=>'K1Zura@gmail.com',
-            'password'=>Hash::make('azura@06'),
+            'name'=>'petugas',
+            'email'=>'petugas@gmail.com',
+            'password'=>Hash::make('rahasia'),
         ]);
     }
 }

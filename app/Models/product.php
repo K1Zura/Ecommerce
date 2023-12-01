@@ -15,12 +15,14 @@ class product extends Model
         'kategori',
         'image',
         'user_id',
+        'company_id',
         'harga',
         'width',
         'height',
         'depth',
         'weight',
         'contain',
+        'validated',
     ];
 
     protected $table = 'products';
@@ -32,8 +34,15 @@ class product extends Model
     public function wishtlist(){
         return $this->belongsToMany(User::class, 'wishlists')->withTimestamp();
     }
+    public function bag(){
+        return $this->belongsToMany(User::class, 'bags')->withTimestamp();
+    }
     public function comment()
     {
         return $this->hasMany(comment::class, 'product_id', 'id');
+    }
+    public function company()
+    {
+        return $this->belongsTo(company::class, 'company_id');
     }
 }

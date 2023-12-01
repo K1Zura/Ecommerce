@@ -1,60 +1,52 @@
 @extends('template.template')
 @section('content')
 @section('title', 'Data')
-@section('pertama', 'Data Membership')
+@section('pertama', 'Data Produk')
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">user Data</h4>
-        <form action="/data-membership" method="GET">
+        <h4 class="card-title">Product Data</h4>
+        <a href="/data-produk" class="btn btn-primary">Back</a>
+        <div class="my-3 d-flex justify-content-center">
+            @if($barang->image != '')
+                <img src="{{asset('storage/photo/'.$barang->image)}}" alt="" width="300px">
+            @endif
+        </div>
+        <form action="/detail-produk" method="GET">
             <div class="table-responsive">
                 <div class="table-responsive">
                     <table class="table table-striped">
                       <thead>
                         <tr>
                           <th>
-                            User
+                            Barang
                           </th>
                           <th>
-                            First name
+                            Deskripsi
                           </th>
                           <th>
-                            Email
+                            Kategori
                           </th>
                           <th>
-                            Created Date
-                          </th>
-                          <th>
-                            Action
+                            Dibuat Tanggal
                           </th>
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($user as $item)
-                        @if ($item->role_id == 3)
                             <tr>
-                          <td class="py-1">
-                            <img src="../../images/faces/face1.jpg" alt="image"/>
+                          <td>
+                            {{$barang->name}}
                           </td>
                           <td>
-                            {{$item->name}}
+                            {{$barang->deskripsi}}
                           </td>
                           <td>
-                            {{$item->email}}
+                            {{$barang->kategori}}
                           </td>
                           <td>
-                            {{$item->created_at}}
-                          </td>
-                          <td>
-                            <form action="/delete-membership/{{$item->id}}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <button class="btn btn-danger">Delete</button>
-                            </form>
+                            {{$barang->created_at}}
                           </td>
                         </tr>
-                        @endif
-                        @endforeach
                       </tbody>
                     </table>
                   </div>

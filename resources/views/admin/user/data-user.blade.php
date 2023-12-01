@@ -49,12 +49,10 @@ use Illuminate\Support\Facades\Crypt;
                             {{$item->created_at}}
                           </td>
                           <td>
-                            <form action="/user-update/{{$item->id}}">
-                                <button class="btn btn-warning">Update</button>
-                            </form>
+                            <a class="btn btn-warning" href="/update-user/{{$item->id}}">Update</a>
                             <form action="/user-delete/{{$item->id}}" method="POST">
                                 @method('DELETE')
-                                @csrf   
+                                @csrf
                                 <button class="btn btn-danger">Delete</button>
                             </form>
                           </td>

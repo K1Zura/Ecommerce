@@ -5,7 +5,7 @@
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon-->
-	<link rel="shortcut icon" href="{{ asset('asset/img/logo.png')}}" />
+	<link rel="shortcut icon" href="{{ asset('asset/img/logo.png?v=2')}}" />
 	<!-- Author Meta -->
 	<meta name="author" content="CodePixar">
 	<!-- Meta Description -->
@@ -30,7 +30,7 @@
 	<link rel="stylesheet" href="{{ asset('asset/css/ion.rangeSlider.skinFlat.css')}}" />
 	<link rel="stylesheet" href="{{ asset('asset/css/magnific-popup.css')}}">
 	<link rel="stylesheet" href="{{ asset('asset/css/main.css')}}">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="{{ asset('sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=')}}" crossorigin="" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -48,7 +48,7 @@ margin: 0;">
 			<nav class="navbar navbar-expand-lg navbar-light main_box">
 				<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="index.html"><img src="asset/img/logo.png" alt=""></a>
+					<a class="navbar-brand logo_h" href="index.html"><img src="{{ asset('asset/img/logo.png')}}" alt=""></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="icon-bar"></span>
@@ -67,23 +67,26 @@ margin: 0;">
 									<li class="nav-item {{ Request::is('toko') ? 'active' : '' }}"><a class="nav-link" href="/toko">Stores</a></li>
 								</ul>
 							</li>
-							<li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+							<li class="nav-item {{ Request::is('contact') ? 'active' : '' }}"><a class="nav-link" href="/contact">Contact</a></li>
 							<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<i class="fa fa-user"></i>
-								</a>
-								<ul class="dropdown-menu" aria-labelledby="accountDropdown">
-									@if (auth('user')->check())
-									<li><a class="dropdown-item" href="/logout">Logout</a></li>
-									@else
-									<li><a class="dropdown-item" href="/login-user">Login</a></li>
-									@endif
-									<li><a class="dropdown-item" href="/profil">My Profile</a></li>
-								</ul>
-							</li>
-						</ul>
+                                <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-user"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                                    @if (auth('user')->check())
+                                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                        <li><a class="dropdown-item" href="/profil/{{ Auth::guard('user')->user()->id }}">My Profile</a></li>
+                                    @else
+                                        <li><a class="dropdown-item" href="/login-user">Login</a></li>
+                                    @endif
+                                    @if (auth('user')->check() && auth('user')->user()->role_id == '2')
+                                            <li><a class="dropdown-item" href="/membership/{{ Auth::guard('user')->user()->id }}">Membership</a></li>
+                                    @endif
+                                </ul>
+                            </li>
 
-                        <ul class="nav navbar-nav navbar-right">
+						</ul>
+                            <ul class="nav navbar-nav navbar-right">
                             <li class="nav-item"><a href="/bag" class="cart"><span class="ti-bag"></span></a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
@@ -214,7 +217,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</footer>
 	<!-- End footer Area -->
 
-	<script src="asset/js/vendor/jquery-2.2.4.min.js"></script>
+	<script src="{{ asset('asset/js/vendor/jquery-2.2.4.min.js')}}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 	 crossorigin="anonymous"></script>
 	<script src="{{ asset('asset/js/vendor/bootstrap.min.js')}}"></script>
@@ -242,14 +245,14 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         var map = L.map('map').setView([-7.668707, 111.108892], 10, {
                     "animate": true,
                     "pan": {
-                        "duration": 30
+                        "duration": 40
                     }
                     });
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 30,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-        var marker = L.marker([-7.668707, 111.108892]).addTo(map);
+        var marker = L.marker([-7.668649, 111.108892]).addTo(map);
         setTimeout(() => {
             map.flyTo([-7.668707, 111.108892], 15, {
             animate: true,
@@ -257,5 +260,34 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             });
         },1000);
     </script>
+    <script>
+        function processOrder() {
+            // Add logic to process the order, for example, send the order details to the server
+            // You can use JavaScript to gather the shopper details and selected products
+            // Then send an AJAX request to the server for order processing
+
+            // Example: Assuming you are using jQuery for AJAX
+            $.ajax({
+                url: '/process-order', // Replace with your actual endpoint
+                type: 'POST',
+                data: {
+                    // Include shopper details and selected products in the data object
+                    shopperName: $('#first').val(),
+                    // Add other shopper details fields
+                    // Include product details or product IDs
+                },
+                success: function (response) {
+                    // Handle success response
+                    console.log(response);
+                },
+                error: function (error) {
+                    // Handle error
+                    console.error(error);
+                }
+            });
+        }
+    </script>
+
+
 </body>
 </html>
